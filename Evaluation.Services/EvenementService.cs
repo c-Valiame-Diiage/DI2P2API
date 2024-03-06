@@ -62,5 +62,12 @@ namespace Evaluation.Services
 
             return await evenementRepository.UpdateEvenement(existingEvenement);
         }
+
+        public async Task DeleteEvenement(int idEvenement)
+        {
+            var evenement = this.evenementRepository.GetEvenementById(idEvenement).Result;
+
+            await this.evenementRepository.DeleteEvenement(evenement);
+        }
     }
 }

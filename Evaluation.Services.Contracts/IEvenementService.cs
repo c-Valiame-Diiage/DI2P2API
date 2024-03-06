@@ -31,5 +31,12 @@ namespace Evaluation.Services.Contracts
         /// <param name="evenementUpDTO">Event information to modify.</param>
         /// <returns>Returns the event updated.</returns>
         Task<Evenement> UpdateEvenement(Evenement evenement);
+
+        /// <summary>
+        /// Deletes a event.
+        /// </summary>
+        /// <param name="idEvenement">Identifier of the event we want to delete.</param>
+        /// <returns>Returns a <see cref="Task"/>.</returns>
+        Task DeleteEvenement(int idEvenement);
     }
 }

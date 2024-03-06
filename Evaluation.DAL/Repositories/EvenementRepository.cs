@@ -68,5 +68,18 @@ namespace Evaluation.DAL.Repositories
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task DeleteEvenement(Evenement evenement)
+        {
+            try
+            {
+                this.dbContext.Evenement.Remove(evenement);
+                await this.dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }

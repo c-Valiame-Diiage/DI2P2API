@@ -169,5 +169,34 @@ namespace Evaluation.API.Functions
 
             return response;
         }
+
+        /// <summary>
+        /// Deletes a evenement.
+        /// </summary>
+        /// <param name="req">Incomming request.</param>
+        /// <param name="id">Identifier of the evenement we want to delete.</param>
+        /// <returns>Returns a <see cref="Task"/> of <seealso cref="HttpResponseData"/> type.</returns>
+        [Function("DeleteEvenement")]
+        public async Task<HttpResponseData> DeleteEvenement([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "Evenements/{id}")] HttpRequestData req, int id)
+        {
+            this.logger.LogInformation("Starting of DeleteEvenement method");
+            string errorMessage = "Error deleting evenement:";
+
+            var response = req.CreateResponse(HttpStatusCode.NoContent);
+
+            try
+            {
+                await this.evenementService.DeleteEvenement(id);
+            }
+
+            catch (Exception ex)
+            {
+                this.logger.LogError("{errorMessage} {ex.Message}", errorMessage, ex.Message);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.WriteString($"{errorMessage} {ex.Message}");
+            }
+
+            return response;
+        }
     }
 }

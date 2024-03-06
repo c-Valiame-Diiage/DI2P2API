@@ -32,5 +32,12 @@ namespace Evaluation.DAL.Contracts
         /// <returns>The modified event.</returns>
         Task<Evenement> UpdateEvenement(Evenement evenement);
 
+
+        /// <summary>
+        /// Deletes a event.
+        /// </summary>
+        /// <param name="evenement"><see cref="Evenement"/> object we want to delete.</param>
+        /// <returns>Returns a <see cref="Task"/>.</returns>
+        Task DeleteEvenement(Evenement evenement);
     }
 }
