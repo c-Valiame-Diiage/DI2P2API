@@ -12,9 +12,9 @@ namespace Evaluation.DAL
         public DbContextEntity(DbContextOptions<DbContextEntity> options) : base(options) { }
 
         /// <summary>
-        /// DbSet for Model1.
+        /// DbSet for Evenement.
         /// </summary>
-        public virtual DbSet<Evenement> Model1 { get; set; }
+        public virtual DbSet<Evenement> Evenement { get; set; }
 
         /// <summary>
         /// OnModelCreating builder.
@@ -24,18 +24,36 @@ namespace Evaluation.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            this.Model1TableInstantiate(modelBuilder);
+            this.EvenementTableInstantiate(modelBuilder);
         }
 
         /// <summary>
-		/// Model1 table instantiation.
+		/// Evenement table instantiation.
 		/// </summary>
 		/// <param name="modelBuilder"></param>
-		private void Model1TableInstantiate(ModelBuilder modelBuilder)
+		private void EvenementTableInstantiate(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Evenement>(entity =>
             {
                 entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Titre)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.DateEvent)
+                    .IsRequired();
+
+                entity.Property(e => e.TimeEvent)
+                    .IsRequired();
+
+                entity.Property(e => e.Lieu)
+                     .IsRequired()
+                     .HasMaxLength(150);
             });
         }
 

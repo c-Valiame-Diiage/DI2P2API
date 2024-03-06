@@ -16,8 +16,8 @@ var host = new HostBuilder()
         {
             options.UseSqlServer(Environment.GetEnvironmentVariable("EvalAPIConnectionString"));
         });
-        services.AddScoped<IRepository, Repository>();
-        services.AddScoped<IService, Service>();
+        services.AddScoped<IEvenementRepository, EvenementRepository>();
+        services.AddScoped<IEvenementService, EvenementService>();
 
     })
     .Build();
