@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Evaluation.DAL.Contracts\Evaluation.DAL.Contracts.csproj" />
+    <ProjectReference Include="..\Evaluation.Entities\Evaluation.Entities.csproj" />
   </ItemGroup>
 
 </Project>

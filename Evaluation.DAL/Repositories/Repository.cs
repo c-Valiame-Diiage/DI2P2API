@@ -1,6 +1,6 @@
 ﻿using Evaluation.DAL.Contracts;
 
-namespace Evaluation.DAL
+namespace Evaluation.DAL.Repositories
 {
     public class Repository : IRepository
     {
