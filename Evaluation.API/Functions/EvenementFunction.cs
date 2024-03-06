@@ -6,6 +6,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Evaluation.Services.Contracts.DTO.Up;
+using Evaluation.Entities;
 
 namespace Evaluation.API.Functions
 {
@@ -86,6 +87,77 @@ namespace Evaluation.API.Functions
             {
                 var events = await this.evenementService.GetAllEvenements();
                 await response.WriteAsJsonAsync(events);
+            }
+
+            catch (Exception ex)
+            {
+                logger.LogError("{errorMessage} {ex.Message}", errorMessage, ex.Message);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.WriteString($"{errorMessage} {ex.Message}");
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gets a evenement by its id.
+        /// </summary>
+        /// <param name="req">Incoming request.</param>
+        /// <param name="id">Unique identifier of the evenement.</param>
+        /// <returns>Returns the response of the function.</returns>
+        [Function("GetEvenementById")]
+        public async Task<HttpResponseData> GetEvenementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Evenements/{id}")] HttpRequestData req, int id)
+        {
+            logger.LogInformation("C# HTTP trigger function processed a request for evenement with id: {id}.", id);
+            string errorMessage = "Error retriving evenement by id:";
+
+            var response = req.CreateResponse();
+            try
+            {
+                var evenement = await this.evenementService.GetEvenementById(id);
+
+                if (evenement == null)
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                }
+                else
+                {
+                    await response.WriteAsJsonAsync(evenement);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                this.logger.LogError("{errorMessage} {ex.Message}", errorMessage, ex.Message);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.WriteString($"{errorMessage} {ex.Message}");
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Update a evenement.
+        /// </summary>
+        /// <param name="req">Incoming request.</param>
+        /// <returns>Returns the evenement updated.</returns>
+        [Function("UpdateEvenement")]
+        public async Task<HttpResponseData> UpdateProfile(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "Evenements/")] HttpRequestData req,
+        FunctionContext executionContext)
+        {
+            string errorMessage = "Error updating evenement:";
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var evenement = JsonSerializer.Deserialize<Evenement>(requestBody);
+
+            var response = req.CreateResponse();
+
+            try
+            {
+                var updatedProfile = await this.evenementService.UpdateEvenement(evenement!);
+
+                await response.WriteAsJsonAsync(updatedProfile);
             }
 
             catch (Exception ex)

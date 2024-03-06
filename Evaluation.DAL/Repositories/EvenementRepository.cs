@@ -1,5 +1,7 @@
 ﻿using Evaluation.DAL.Contracts;
 using Evaluation.Entities;
+using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Evaluation.DAL.Repositories
 {
@@ -36,6 +38,33 @@ namespace Evaluation.DAL.Repositories
             catch (Exception ex)
             {
 
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<Evenement> GetEvenementById(int idEvenement)
+        {
+            try
+            {
+                return await this.dbContext.Evenement.SingleAsync(p => p.Id == idEvenement);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<Evenement> UpdateEvenement(Evenement evenement)
+        {
+            try
+            {
+                this.dbContext.Evenement.Update(evenement);
+                await this.dbContext.SaveChangesAsync();
+                return evenement;
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message, ex);
             }
         }

@@ -2,7 +2,6 @@
 using Evaluation.Entities;
 using Evaluation.Services.Contracts;
 using Evaluation.Services.Contracts.DTO.Up;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Evaluation.Services
 {
@@ -44,6 +43,24 @@ namespace Evaluation.Services
             {
                 return evenementRepository.GetAllEvenements().ToList();
             });
+        }
+
+        public async Task<Evenement> GetEvenementById(int idEvenement)
+        {
+            return await this.evenementRepository.GetEvenementById(idEvenement);
+        }
+
+        public async Task<Evenement> UpdateEvenement(Evenement evenement)
+        {
+            var existingEvenement = await evenementRepository.GetEvenementById(evenement.Id);
+
+            existingEvenement.Titre = evenement.Titre;
+            existingEvenement.Description = evenement.Description;
+            existingEvenement.DateEvent = evenement.DateEvent;
+            existingEvenement.TimeEvent = evenement.TimeEvent!;
+            existingEvenement.Lieu = evenement.Lieu;
+
+            return await evenementRepository.UpdateEvenement(existingEvenement);
         }
     }
 }

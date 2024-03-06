@@ -17,5 +17,19 @@ namespace Evaluation.Services.Contracts
         /// </summary>
         /// <returns>Returns a list of events.</returns>
         Task<List<Evenement>> GetAllEvenements();
+
+        /// <summary>
+        /// Gets event by its id.
+        /// </summary>
+        /// <param name="idEvenement">Unique identifier of the event.</param>
+        /// <returns>Returns the event.</returns>
+        Task<Evenement> GetEvenementById(int idEvenement);
+
+        /// <summary>
+        /// Update a event.
+        /// </summary>
+        /// <param name="evenementUpDTO">Event information to modify.</param>
+        /// <returns>Returns the event updated.</returns>
+        Task<Evenement> UpdateEvenement(Evenement evenement);
     }
 }
