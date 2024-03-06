@@ -11,5 +11,11 @@ namespace Evaluation.DAL.Contracts
         /// <returns>The new Event created.</returns>
         Task<Evenement> CreateEvenement(Evenement evenement);
 
+        /// <summary>
+        /// Gets all events.
+        /// </summary>
+        /// <returns>Returns a list of events.</returns>
+        IQueryable<Evenement> GetAllEvenements();
+
     }
 }

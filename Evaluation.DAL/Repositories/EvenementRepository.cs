@@ -1,6 +1,5 @@
 ﻿using Evaluation.DAL.Contracts;
 using Evaluation.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Evaluation.DAL.Repositories
 {
@@ -24,6 +23,19 @@ namespace Evaluation.DAL.Repositories
             }
             catch (Exception ex)
             {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public IQueryable<Evenement> GetAllEvenements()
+        {
+            try
+            {
+                return this.dbContext.Evenement.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+
                 throw new Exception(ex.Message, ex);
             }
         }

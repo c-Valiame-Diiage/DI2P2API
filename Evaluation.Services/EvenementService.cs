@@ -2,6 +2,7 @@
 using Evaluation.Entities;
 using Evaluation.Services.Contracts;
 using Evaluation.Services.Contracts.DTO.Up;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Evaluation.Services
 {
@@ -13,6 +14,7 @@ namespace Evaluation.Services
         {
             evenementRepository = _evenementRepository;
         }
+
         public async Task<EvenementUpDTO> SaveEvenement(EvenementUpDTO eventDTO)
         {
             Evenement evenement = new Evenement()
@@ -34,6 +36,14 @@ namespace Evaluation.Services
                 TimeEvent = eventCreated.TimeEvent,
                 Lieu = eventCreated.Lieu
             };
+        }
+
+        public async Task<List<Evenement>> GetAllEvenements()
+        {
+            return await Task.Run(() =>
+            {
+                return evenementRepository.GetAllEvenements().ToList();
+            });
         }
     }
 }

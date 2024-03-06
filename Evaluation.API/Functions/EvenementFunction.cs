@@ -66,5 +66,36 @@ namespace Evaluation.API.Functions
 
             return response;
         }
+
+
+        /// <summary>
+        /// Gets all events.
+        /// </summary>
+        /// <param name="req">Incoming request.</param>
+        /// <returns>Returns the response of the function.</returns>
+        [Function("GetAllEvenements")]
+        public async Task<HttpResponseData> GetAllEvenements(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Evenements")] HttpRequestData req)
+        {
+            logger.LogInformation("C# HTTP trigger function processed a request to get all events.");
+            string errorMessage = "Error getting all events:";
+
+            var response = req.CreateResponse();
+
+            try
+            {
+                var events = await this.evenementService.GetAllEvenements();
+                await response.WriteAsJsonAsync(events);
+            }
+
+            catch (Exception ex)
+            {
+                logger.LogError("{errorMessage} {ex.Message}", errorMessage, ex.Message);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.WriteString($"{errorMessage} {ex.Message}");
+            }
+
+            return response;
+        }
     }
 }
